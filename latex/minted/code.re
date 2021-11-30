@@ -1,9 +1,9 @@
 [ ]*\\begin\{minipage\}\{.*\\textwidth\}
-[ ]*\\begin\{minted\}\[.*\]\{.*\}
+[ ]*\\begin\{minted\}\[.*\]\{(.*)\}
 (([^\\]|\n)*)
 [ ]*\\end\{minted\}
 [ ]*\\end\{minipage\}
 
-\begin{code}{python}
-$1
+\begin{code}{$1}
+$2
 \end{code}
