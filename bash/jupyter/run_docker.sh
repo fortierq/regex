@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export c=mp2i_devcontainer_jupyter_1; \
 docker container start $c; \
 while (( 1 - $(docker container ls | grep -c "$c") )); do sleep 1; done;
