@@ -17,7 +17,7 @@ def get_dl(d):
             p = (Path("files/cours") / d["cours"]).with_suffix(".md")
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(f"# Cours : {d['cours']}")
-            d["filez"] = str(p.relative_to("files"))
+            d["file"] = str(p.relative_to("files"))
             del d["cours"]
         for k, v in d.items():
             yield from get_dl(v)
