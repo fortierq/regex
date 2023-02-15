@@ -1,6 +1,7 @@
 from pathlib import Path
 import subprocess
 import json
+import sys
 import yaml
 
 git = f"https://fortierq:{sys.argv[1]}@github.com/fortierq/cours-src.git"
