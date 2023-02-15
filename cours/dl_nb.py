@@ -4,7 +4,7 @@ import yaml
 
 git = f"https://github.com/fortierq/cours.git"
 dir_repo = Path("/tmp/cours-src")
-subprocess.run(["git", "clone", "--dep", "1", git, dir_repo])
+subprocess.run(["git", "clone", git, dir_repo])
 
 def get_dl(d):
     if isinstance(d, dict):
