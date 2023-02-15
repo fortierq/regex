@@ -2,7 +2,7 @@ from pathlib import Path
 import subprocess
 import yaml
 
-git = f"https://github.com/fortierq/cours.git"
+git = f"https://github.com/fortierq/cours-src.git"
 dir_repo = Path("/tmp/cours-src")
 subprocess.run(["git", "clone", git, dir_repo])
 
