@@ -8,10 +8,11 @@ subprocess.run(["git", "clone", "--dep", "1", git, dir_repo])
 
 def get_dl(d):
     if isinstance(d, dict):
-        if "tp" in d:
-            yield d["tp"]
-            d["file"] = d["tp"]
-            del d["tp"]
+        for k in ["tp", "cor"]:
+            if k in d:
+                yield d[k]
+                d["file"] = d[k]
+                del d[k]
         for k, v in d.items():
             yield from get_dl(v)
     elif isinstance(d, list):
