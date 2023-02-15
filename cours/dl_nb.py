@@ -20,6 +20,7 @@ def get_dl(d):
             yield from get_dl(v)
 
 with Path("files/_toc.yml").open() as f:
+    print(1)
     d = yaml.load(f, Loader=yaml.FullLoader)
     for type, file in get_dl(d):
         p = Path("files") / file
