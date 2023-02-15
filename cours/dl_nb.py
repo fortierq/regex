@@ -21,11 +21,12 @@ def get_dl(d):
 with Path("files/_toc.yml").open() as f:
     d = yaml.load(f, Loader=yaml.FullLoader)
     for dl in get_dl(d):
-        p = Path("files") / tp
+        p = Path("files") / dl
         p.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(["cp", (dir_repo / dl).absolute(), p])
-        subprocess.run(f"""jupyter nbconvert {p} --to ipynb --output {p} --allow-errors \
+        subprocess.run(f"""jupyter nbconvert {p} --to ipynb --output {p.name} --allow-errors \
         --TagRemovePreprocessor.enabled=True \
         --TagRemovePreprocessor.remove_input_tags hide \
-        --TagRemovePreprocessor.remove_cell_tags cor""")
+        --TagRemovePreprocessor.remove_cell_tags cor""", shell=True)
+
 yaml.dump(d, Path("files/_toc.yml").open("w"))
