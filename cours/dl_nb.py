@@ -7,7 +7,7 @@ dir_repo = Path("/tmp/cours-src")
 subprocess.run(["git", "config", "--global", "user.email", "qpfortier@gmail.com"])
 subprocess.run(["git", "config", "--global", "user.name", "Quentin Fortier"])
 
-git = f"https://fortierq:{sys.argv[1]}@github.com/fortierq/cours-src.git"
+git = f"https://fortierq:{TOKEN}@github.com/fortierq/cours-src.git"
 subprocess.run(["git", "clone", "--dep", "1", git, dir_repo])
 
 def get_dl(d):
