@@ -10,7 +10,7 @@ def get_dl(d):
     if isinstance(d, dict):
         for k in ["tp", "cor"]:
             if k in d:
-                yield d[k]
+                yield k, d[k]
                 d["file"] = d[k]
                 del d[k]
         for k, v in d.items():
