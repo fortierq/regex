@@ -3,7 +3,7 @@ import subprocess
 import json
 import yaml
 
-git = f"https://github.com/fortierq/cours-src.git"
+git = "https://github.com/fortierq/cours-src.git"
 dir_repo = Path("/tmp/cours-src")
 subprocess.run(["git", "clone", git, dir_repo])
 
