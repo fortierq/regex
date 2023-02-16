@@ -26,7 +26,7 @@ def get_dl(d):
                     nb = json.load(p.open())
                     if len(nb["cells"]) > 0 and nb["cells"][0]["cell_type"] == "markdown":
                         nb["cells"][0]["source"][0] += '\n'
-                        nb["cells"][0]["source"].append(f'<iframe src=https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/fortierq/cours/main/{d[k]}#zoom=page-fit&pagemode=none height=500 width=100% allowfullscreen></iframe>')
+                        nb["cells"][0]["source"].append(f'<iframe src=https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/fortierq/cours/main/{d[k].with_suffix(".pdf")}#zoom=page-fit&pagemode=none height=500 width=100% allowfullscreen></iframe>')
                         json.dump(nb, p.open("w"))
                 d["file"] = d[k]
             if k in ["exercice", "cours"]:
