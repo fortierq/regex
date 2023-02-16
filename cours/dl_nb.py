@@ -24,8 +24,10 @@ def get_dl(d):
                 subprocess.run(cmd, shell=True)
                 if k == "slides":
                     nb = json.load(p.open())
-                    nb["cells"][0]["source"].append(f'<iframe src=https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/fortierq/cours/main/{d[k]}#zoom=page-fit&pagemode=none height=500 width=100% allowfullscreen></iframe>')
-                    json.dump(nb, p.open("w"))
+                    if len(nb["cells"]) > 0 and nb["cells"][0]["cell_type"] == "markdown":
+                        nb["cells"][0]["source"][0] += '\n'
+                        nb["cells"][0]["source"].append(f'<iframe src=https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/fortierq/cours/main/{d[k]}#zoom=page-fit&pagemode=none height=500 width=100% allowfullscreen></iframe>')
+                        json.dump(nb, p.open("w"))
                 d["file"] = d[k]
             if k in ["exercice", "cours"]:
                 p = (Path(f"files/{k}") / d[k]).with_suffix(".md")
