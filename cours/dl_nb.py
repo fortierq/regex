@@ -29,12 +29,12 @@ def get_dl(d):
                         nb["cells"][0]["source"].append(f'<iframe src=https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/fortierq/cours/main/{Path(d[k]).with_suffix(".pdf")}#zoom=page-fit&pagemode=none height=500 width=100% allowfullscreen></iframe>')
                         json.dump(nb, p.open("w"))
                 d["file"] = d[k]
-            if k in ["exercice", "cours"]:
+            if k in ["exercices", "cours"]:
                 p = (Path(f"files/{k}") / d[k]).with_suffix(".md")
                 p.parent.mkdir(parents=True, exist_ok=True)
                 p.write_text(f"# {k.capitalize()}")
                 d["file"] = str(p.relative_to("files"))
-            if k in ["tp", "cor", "exercice", "cours", "slides"]: 
+            if k in ["tp", "cor", "exercices", "cours", "slides"]: 
                 del d[k]
             else:
                 get_dl(d[k])
