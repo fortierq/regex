@@ -11,7 +11,10 @@ subprocess.run(["git", "clone", git, dir_repo])
 def iframe(p):
     return f'<iframe src=https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/fortierq/cours/main/{p}#zoom=page-fit&pagemode=none height=500 width=100% allowfullscreen></iframe>'
 
+menu = 0
+
 def get_dl(d):
+    global menu
     if isinstance(d, list):
         for v in d: 
             get_dl(v)
@@ -28,19 +31,19 @@ def get_dl(d):
                 if k == "slides_ipynb":
                     nb = json.load(p.open())
                     if len(nb["cells"]) > 0 and nb["cells"][0]["cell_type"] == "markdown":
-                        nb["cells"][0]["source"][0] += f'{iframe(Path(d[k]).with_suffix(".pdf"))}\n'
-                        nb["cells"][0]["source"].append()
+                        nb["cells"][0]["source"][0] += f'\n{iframe(Path(d[k]).with_suffix(".pdf"))}'
                         json.dump(nb, p.open("w"))
                 d["file"] = str(p.relative_to("files"))
                 subprocess.run(["git", "add", p])
                 subprocess.run(["git", "commit", "-m", f"Add {p.name}"])
                 subprocess.run(["git", "push"])
-            if k in ["exercices", "cours", "slides"]:
-                p = (Path(f"files/{k}") / d[k]).with_suffix(".md")
+            if k == "menu":
+                p = (Path(f"files/menu/{menu}")).with_suffix(".md")
+                menu += 1
                 p.parent.mkdir(parents=True, exist_ok=True)
-                s = f"# {k.capitalize()}"
-                if k == "slides":
-                    s += f'\n{iframe(Path(d[k]))}'
+                s = f"# {d[k]}"
+                # if k == "slides":
+                #     s += f'\n{iframe(Path(d[k]))}'
                 p.write_text(s)
                 d["file"] = str(p.relative_to("files"))
             if k in ["tp", "cor", "exercices", "cours", "slides", "slides_ipynb"]: 
