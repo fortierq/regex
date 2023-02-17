@@ -6,6 +6,8 @@ import yaml
 
 git = f"https://fortierq:{sys.argv[1]}@github.com/fortierq/cours-src.git"
 dir_repo = Path("/tmp/cours-src")
+subprocess.run(["git", "config", "--global", "user.email", "qpfortier@gmail.com"])
+subprocess.run(["git", "config", "--global", "user.name", "Quentin Fortier"])
 subprocess.run(["git", "clone", git, dir_repo])
 
 def iframe(p):
