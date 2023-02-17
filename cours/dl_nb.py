@@ -34,16 +34,16 @@ def get_dl(d):
                         nb["cells"][0]["source"][0] += f'\n{iframe(Path(d[k]).with_suffix(".pdf"))}'
                         json.dump(nb, p.open("w"))
                 d["file"] = str(p.relative_to("files"))
-                subprocess.run(["git", "add", p])
-                subprocess.run(["git", "commit", "-m", f"Add {p.name}"])
-                subprocess.run(["git", "push"])
-            if k == "menu":
+                # subprocess.run(["git", "add", p])
+                # subprocess.run(["git", "commit", "-m", f"Add {p.name}"])
+                # subprocess.run(["git", "push"])
+            if k in ["menu", "slides"]:
                 p = (Path(f"files/menu/{menu}")).with_suffix(".md")
                 menu += 1
                 p.parent.mkdir(parents=True, exist_ok=True)
                 s = f"# {d[k]}"
-                # if k == "slides":
-                #     s += f'\n{iframe(Path(d[k]))}'
+                if k == "slides":
+                    s += f'\n{iframe(Path(d["file"]))}'
                 p.write_text(s)
                 d["file"] = str(p.relative_to("files"))
             if k in ["tp", "cor", "exercices", "cours", "slides", "slides_ipynb"]: 
