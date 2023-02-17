@@ -48,7 +48,7 @@ def get_dl(d):
                     s += f'\n{iframe(Path(d["file"]))}'
                 p.write_text(s)
                 d["file"] = str(p.relative_to("files"))
-            if k in ["tp", "cor", "exercices", "cours", "slides", "slides_ipynb"]: 
+            if k in ["tp", "cor", "menu", "slides", "slides_ipynb"]: 
                 del d[k]
             else:
                 get_dl(d[k])
