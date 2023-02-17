@@ -8,13 +8,16 @@ git = f"https://fortierq:{sys.argv[1]}@github.com/fortierq/cours-src.git"
 dir_repo = Path("/tmp/cours-src")
 subprocess.run(["git", "clone", git, dir_repo])
 
+def iframe(p):
+    return f'<iframe src=https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/fortierq/cours/main/{p}#zoom=page-fit&pagemode=none height=500 width=100% allowfullscreen></iframe>'
+
 def get_dl(d):
     if isinstance(d, list):
         for v in d: 
             get_dl(v)
     elif isinstance(d, dict):
         for k in d.copy():
-            if k in ["tp", "cor", "slides"]:
+            if k in ["tp", "cor", "slides_ipynb"]:
                 p = Path("files") / "dl" / d[k]
                 p.parent.mkdir(parents=True, exist_ok=True)
                 subprocess.run(["cp", (dir_repo / d[k]).absolute(), p])
@@ -22,22 +25,25 @@ def get_dl(d):
                 if type != "cor": 
                     cmd += " --TagRemovePreprocessor.remove_cell_tags cor"
                 subprocess.run(cmd, shell=True)
-                if k == "slides":
+                if k == "slides_ipynb":
                     nb = json.load(p.open())
                     if len(nb["cells"]) > 0 and nb["cells"][0]["cell_type"] == "markdown":
-                        nb["cells"][0]["source"][0] += '\n'
-                        nb["cells"][0]["source"].append(f'<iframe src=https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/fortierq/cours/main/{Path(d[k]).with_suffix(".pdf")}#zoom=page-fit&pagemode=none height=500 width=100% allowfullscreen></iframe>')
+                        nb["cells"][0]["source"][0] += f'{iframe(Path(d[k]).with_suffix(".pdf"))}\n'
+                        nb["cells"][0]["source"].append()
                         json.dump(nb, p.open("w"))
                 d["file"] = str(p.relative_to("files"))
                 subprocess.run(["git", "add", p])
                 subprocess.run(["git", "commit", "-m", f"Add {p.name}"])
                 subprocess.run(["git", "push"])
-            if k in ["exercices", "cours"]:
+            if k in ["exercices", "cours", "slides"]:
                 p = (Path(f"files/{k}") / d[k]).with_suffix(".md")
                 p.parent.mkdir(parents=True, exist_ok=True)
-                p.write_text(f"# {k.capitalize()}")
+                s = f"# {k.capitalize()}"
+                if k == "slides":
+                    s += f'\n{iframe(Path(d[k]))}'
+                p.write_text(s)
                 d["file"] = str(p.relative_to("files"))
-            if k in ["tp", "cor", "exercices", "cours", "slides"]: 
+            if k in ["tp", "cor", "exercices", "cours", "slides", "slides_ipynb"]: 
                 del d[k]
             else:
                 get_dl(d[k])
