@@ -34,9 +34,9 @@ def get_dl(d):
                         nb["cells"][0]["source"][0] += f'\n{iframe(Path(d[k]).with_suffix(".pdf"))}'
                         json.dump(nb, p.open("w"))
                 d["file"] = str(p.relative_to("files"))
-                # subprocess.run(["git", "add", p])
-                # subprocess.run(["git", "commit", "-m", f"Add {p.name}"])
-                # subprocess.run(["git", "push"])
+                subprocess.run(["git", "add", p])
+                subprocess.run(["git", "commit", "-m", f"Add {p.name}"])
+                subprocess.run(["git", "push"])
             if k in ["menu", "slides"]:
                 p = (Path(f"files/menu/{menu}")).with_suffix(".md")
                 menu += 1
