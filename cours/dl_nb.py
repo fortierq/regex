@@ -18,6 +18,7 @@ def iframe_td(p):
     return f"""
 <script>
     $(function() {{
+        document.getElementById("main-content").style.maxWidth = "90%";
         button_{td} = button_cor(
             'https://raw.githubusercontent.com/fortierq/cours/main/{p}',
             '{td}',
@@ -30,7 +31,7 @@ def iframe_td(p):
 <input type="button" id="button_{td}" onclick="button_{td}.switch()" />
 ```
 
-<iframe id="{td}" height=900 width=100% allowfullscreen></iframe>
+<iframe id="{td}" height=1100 width=100% allowfullscreen></iframe>
 """
 
 def iframe(p):
