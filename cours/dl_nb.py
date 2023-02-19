@@ -62,8 +62,12 @@ def get_dl(d):
                 subprocess.run(["git", "commit", "-m", f"Add {p.name}"])
                 subprocess.run(["git", "push"])
             if k in ["menu", "slides", "td"]:
-                p = (Path(f"files/menu/{menu}")).with_suffix(".md")
-                menu += 1
+                if k == "menu":
+                    name = f"{menu}"
+                    menu += 1
+                else:
+                    name = Path(d["file"]).stem
+                p = (Path(f"files/{k}/{name}")).with_suffix(".md")
                 p.parent.mkdir(parents=True, exist_ok=True)
                 s = f"# {d[k]}"
                 if k == "slides":
