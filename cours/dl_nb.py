@@ -44,7 +44,7 @@ def get_dl(d):
             get_dl(v)
     elif isinstance(d, dict):
         for k in d.copy():
-            if k in ["tp", "cor", "cours_ipynb"]:
+            if k in ["tp", "cor", "slides_ipynb"]:
                 p = Path("files") / "dl" / d[k]
                 p.parent.mkdir(parents=True, exist_ok=True)
                 subprocess.run(["cp", (dir_repo / d[k]).absolute(), p])
@@ -52,7 +52,7 @@ def get_dl(d):
                 if type != "cor": 
                     cmd += " --TagRemovePreprocessor.remove_cell_tags cor"
                 subprocess.run(cmd, shell=True)
-                if k == "cours_ipynb":
+                if k == "slides_ipynb":
                     nb = json.load(p.open())
                     if len(nb["cells"]) > 0 and nb["cells"][0]["cell_type"] == "markdown":
                         nb["cells"][0]["source"][0] += f'\n{iframe(Path(d[k]).with_suffix(".pdf"))}'
@@ -76,7 +76,7 @@ def get_dl(d):
                     s += f'\n{iframe_td(Path(d["file"]))}'                    
                 p.write_text(s)
                 d["file"] = str(p.relative_to("files"))
-            if k in ["tp", "cor", "menu", "slides", "cours_ipynb", "td"]: 
+            if k in ["tp", "cor", "menu", "slides", "slides_ipynb", "td"]: 
                 del d[k]
             else:
                 get_dl(d[k])
