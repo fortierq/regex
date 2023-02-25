@@ -49,7 +49,7 @@ def get_dl(d):
                 p.parent.mkdir(parents=True, exist_ok=True)
                 subprocess.run(["cp", (dir_repo / d[k]).absolute(), p])
                 cmd = f"jupyter nbconvert {p} --to ipynb --output {p.name} --allow-errors --TagRemovePreprocessor.enabled=True --TagRemovePreprocessor.remove_input_tags hide"
-                if type != "cor": 
+                if k != "cor": 
                     cmd += " --TagRemovePreprocessor.remove_cell_tags cor"
                 subprocess.run(cmd, shell=True)
                 if k == "slides_ipynb":
