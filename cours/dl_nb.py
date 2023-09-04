@@ -6,9 +6,14 @@ import yaml
 
 git = f"https://fortierq:{sys.argv[1]}@github.com/fortierq/cours-src.git"
 dir_repo = Path("/tmp/cours-src")
-subprocess.run(["git", "config", "--global", "user.email", "qpfortier@gmail.com"])
-subprocess.run(["git", "config", "--global", "user.name", "Quentin Fortier"])
-subprocess.run(["git", "clone", git, dir_repo])
+if not dir_repo.exists():
+    subprocess.run(["git", "config", "--global", "user.email", "qpfortier@gmail.com"])
+    subprocess.run(["git", "config", "--global", "user.name", "Quentin Fortier"])
+    subprocess.run(["git", "clone", git, dir_repo])
+else:
+    subprocess.run(["git", "config", "pull.rebase", "false"], cwd=dir_repo)
+    subprocess.run(["git", "pull"], cwd=dir_repo)
+menu, td = 0, 0
 
 menu, td = 0, 0
 
@@ -81,6 +86,6 @@ def get_dl(d):
             else:
                 get_dl(d[k])
 
-d = yaml.safe_load(Path("files/_toc.yml").read_text())
+d = yaml.safe_load(Path("_toc.yml").read_text())
 get_dl(d)
 yaml.dump(d, Path("files/_toc.yml").open("w"))
