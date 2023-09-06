@@ -15,8 +15,6 @@ else:
     subprocess.run(["git", "pull"], cwd=dir_repo)
 menu, td = 0, 0
 
-menu, td = 0, 0
-
 def iframe_td(p):
     global td
     td += 1
@@ -72,7 +70,7 @@ def get_dl(d):
                     menu += 1
                 else:
                     name = Path(d["file"]).stem
-                p = (Path(f"files/{k}/{name}")).with_suffix(".md")
+                p = (Path(f"files/dl/{k}/{name}")).with_suffix(".md")
                 p.parent.mkdir(parents=True, exist_ok=True)
                 s = f"# {d[k]}"
                 if k == "slides":
