@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 import subprocess
 import json
 import sys
@@ -6,13 +7,12 @@ import yaml
 
 git = f"https://fortierq:{sys.argv[1]}@github.com/fortierq/cours-src.git"
 dir_repo = Path("/tmp/cours-src")
-if not dir_repo.exists():
-    subprocess.run(["git", "config", "--global", "user.email", "qpfortier@gmail.com"])
-    subprocess.run(["git", "config", "--global", "user.name", "Quentin Fortier"])
-    subprocess.run(["git", "clone", git, dir_repo])
-else:
-    subprocess.run(["git", "config", "pull.rebase", "false"], cwd=dir_repo)
-    subprocess.run(["git", "pull"], cwd=dir_repo)
+if dir_repo.exists():
+    shutil.rmtree(dir_repo)
+subprocess.run(["git", "config", "--global", "user.email", "qpfortier@gmail.com"])
+subprocess.run(["git", "config", "--global", "user.name", "Quentin Fortier"])
+subprocess.run(["git", "clone", git, dir_repo])
+
 menu, td = 0, 0
 
 def iframe_td(p):
